@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pulsator/pulsator.dart';
 import 'package:task_manager/view/widgets.dart';
 
 class HomeView extends StatefulWidget {
@@ -8,150 +7,133 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-List addTask = ['Task 1', 'Task 2', 'Task 3'];
-List onProcess = ['inprocess 1', 'inprocess 2', 'inprocess 3'];
-List finished = ['finished 1', 'finished 2'];
+final List addTaskList = ['Task 1', 'Task 2', 'Task 3'];
+final List onProcessList = ['inprocess 1', 'inprocess 2', 'inprocess 3'];
+final List finishedList = ['finished 1', 'finished 2'];
 
 TextEditingController addTaskController = TextEditingController();
 
 class _HomeViewState extends State<HomeView> {
+  void updateMyTile(int oldIndex, int newIndex) {
+    setState(() {
+      if (oldIndex < newIndex) {
+        newIndex--;
+      }
+      final tile = addTaskList.removeAt(oldIndex);
+      addTaskList.insert(newIndex, tile);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Task Management',
-          style: TextStyle(
-              fontSize: 33, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        actions: const [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.blue,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text(
+            'Task Management',
+            style: TextStyle(
+                fontSize: 33, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          actions: const [
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.blue,
               child: CircleAvatar(
-                backgroundColor: Colors.blue,
-                radius: 15,
-                child: Icon(
-                  Icons.question_mark_rounded,
-                  color: Colors.white,
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  radius: 15,
+                  child: Icon(
+                    Icons.question_mark_rounded,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'To Do',
-                style: myTextStyle,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: addTask.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ListTile(
-                        tileColor: Colors.amber,
-                        title: Text(addTask[index]),
-                        trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.more_vert)),
-                      ),
-                    );
-                  },
+            )
+          ],
+        ),
+        body: Container(
+            color: Colors.black,
+            padding: const EdgeInsets.all(40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: Colors.black,
+                  width: 1000,
+                  child: Text(
+                    'To Do',
+                    style: myTextStyle,
+                  ),
                 ),
-              ),
-
-              // Draggable(
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(top: 5, bottom: 5),
-              //       child: ListTile(
-              //         tileColor: Colors.amber,
-              //         title: Text('1'),
-              //       ),
-              //     ),
-              //     feedback: ListTile(
-              //       title: Text('1'),
-              //     )),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      fixedSize:
-                          const MaterialStatePropertyAll(Size(10000, 50)),
-                      // side: const MaterialStatePropertyAll(
-                      //     BorderSide(color: Colors.blue)),
-                      shape: const MaterialStatePropertyAll(
-                          RoundedRectangleBorder()),
-                      backgroundColor:
-                          const MaterialStatePropertyAll(Colors.blue),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white)),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Add new task'),
-                            content: TextField(
-                              controller: addTaskController,
-                            ),
-                            actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      addTask.add(addTaskController.text);
+                Expanded(
+                  child: ReorderableListView(
+                      onReorder: (oldIndex, newIndex) =>
+                          updateMyTile(oldIndex, newIndex),
+                      children: [
+                        for (final tile in addTaskList)
+                          ListTile(
+                            tileColor: Colors.blue,
+                            key: Key(tile),
+                            title: Text(tile),
+                            trailing: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.more_vert)),
+                          )
+                      ]),
+                ),
+                ElevatedButton(
+                    style: addTaskButton,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Add new task'),
+                              content: TextField(
+                                controller: addTaskController,
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        addTaskList.add(addTaskController.text);
+                                        Navigator.pop(context);
+                                      });
+                                    },
+                                    child: const Text('Save')),
+                                ElevatedButton(
+                                    onPressed: () {
                                       Navigator.pop(context);
-                                    });
-                                  },
-                                  child: const Text('Save')),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Discard'))
-                            ],
-                          );
-                        });
-                  },
-                  child: const Text('Add Task')),
-              Text(
-                'On Process',
-                style: myTextStyle,
-              ),
-              Container(
-                color: Colors.blue,
-                height: 200,
-              ),
-              Text(
-                'Finished',
-                style: myTextStyle,
-              ),
-              Container(
-                color: Colors.blue,
-                height: 200,
-              ),
-            ],
-          )),
-      floatingActionButton: IconButton(
-          onPressed: () {},
-          icon: const PulseIcon(
-            icon: Icons.message,
-            pulseColor: Colors.blue,
-            iconColor: Colors.white,
-            iconSize: 44,
-            innerSize: 54,
-            pulseSize: 116,
-            pulseCount: 4,
-            pulseDuration: Duration(seconds: 4),
-          )),
-    );
+                                    },
+                                    child: const Text('Discard'))
+                              ],
+                            );
+                          });
+                    },
+                    child: const Text('Add Task')),
+                Container(
+                  color: Colors.black,
+                  width: 1000,
+                  child: Text(
+                    'On Process',
+                    style: myTextStyle,
+                  ),
+                ),
+                Container(
+                  color: Colors.black,
+                  height: 200,
+                ),
+                Container(
+                  color: Colors.black,
+                  width: 1000,
+                  child: Text(
+                    'Finished',
+                    style: myTextStyle,
+                  ),
+                ),
+              ],
+            )),
+        floatingActionButton: floatingActionMsgButton);
   }
 }

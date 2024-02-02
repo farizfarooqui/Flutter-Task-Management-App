@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/view/home_view.dart';
+import 'package:task_manager/view/test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
       ),
-      home: const HomeView(),
+      home: const TestDrag(),
       debugShowCheckedModeBanner: false,
     );
   }
