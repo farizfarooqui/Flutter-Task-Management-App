@@ -10,6 +10,10 @@ List<DraggableList> allLists = [
             'https://images.unsplash.com/photo-1582979512210-99b6a53386f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
       ),
       DraggableListItem(
+          title: 'Strawberry ',
+          urlImage:
+              'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.timesnownews.com%2Fhealth%2Farticle%2Fstrawberry-benefits-for-weight-loss-know-the-uses-of-the-wonderful-fruit%2F707980&psig=AOvVaw33ABK74cEWZLdJc7cBzEHC&ust=1707492561121000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKD7m8-HnIQDFQAAAAAdAAAAABAE'),
+      DraggableListItem(
         title: 'Apple',
         urlImage:
             'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3367&q=80',

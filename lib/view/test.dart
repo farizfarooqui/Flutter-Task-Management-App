@@ -24,29 +24,12 @@ class _TestDragState extends State<TestDrag> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.amber,
         title: const Text(
-          'Task Management',
-          style: TextStyle(
-              fontSize: 33, fontWeight: FontWeight.bold, color: Colors.white),
+          'Available Fruits',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: const [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.blue,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                backgroundColor: Colors.blue,
-                radius: 15,
-                child: Icon(
-                  Icons.question_mark_rounded,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          )
-        ],
+        centerTitle: true,
       ),
       body: DragAndDropLists(
         listPadding: const EdgeInsets.all(16),
